@@ -87,5 +87,26 @@ FROM unique_titles as ut
 GROUP BY title 
 ORDER BY COUNT(title) DESC;
 
+SELECT emp_no, first_name, last_name, birth_date
+INTO membership_eligibility3
+FROM employees;
+SELECT * FROM membership_eligibility3
+
+SELECT de.from_date, de.to_date, de.emp_no, ti.title
+FROM titles as ti
+INNER JOIN dept_emp as de
+ON ti.emp_no = de.emp_no;
 
 
+SELECT me.emp_no, me.first_name, me.last_name, me.birth_date, ti.from_date, ti.to_date, ti.title
+INTO membership_eligibility5
+FROM membership_eligibility3 as me
+INNER JOIN titles as ti
+ON me.emp_no = ti.emp_no;
+
+
+SELECT DISTINCT ON (emp_no)emp_no, first_name, last_name, birth_date, from_date, to_date, title
+INTO membership_eligibility
+FROM membership_eligibility5
+WHERE (birth_date BETWEEN '1965-01-01' AND '1965-12-31')
+ORDER BY emp_no, first_name DESC;
